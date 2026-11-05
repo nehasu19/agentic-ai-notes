@@ -1,3 +1,4 @@
+# to start learning click on link https://nehasu19.github.io/agentic-ai-notes/
 # Agentic AI — My Learning Path
 
 My personal notes on how AI agents work and how organizations can use them well.
