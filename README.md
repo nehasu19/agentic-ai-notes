@@ -1,6 +1,6 @@
 
-# Agentic AI — My Learning Path
-to start learning click on link https://nehasu19.github.io/agentic-ai-notes/
+# Agentic AI Playbook
+to start learning click on link https://nehasu19.github.io/agentic-ai-playbook/
 
 My personal notes on how AI agents work and how organizations can use them well.
 Everything here is written in my own words, from my own study and practice.
