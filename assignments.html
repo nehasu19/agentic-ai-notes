@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI Projects</title>
+<meta name="description" content="Eight hands-on agentic AI projects: what each one asks for and what to cover.">
+<script>try{var t=localStorage.getItem('aai-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#list">Skip to the projects</a>
+<nav class="rail" aria-label="Sections">
+  <a class="mono" href="index.html" aria-label="Agentic AI notes, home">Ai</a>
+  <a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13z"/></svg><span>Topics</span></a>
+  <a href="assignments.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 3h6v3H9zM8.5 11l2 2 4-4M8.5 17h7"/></svg><span>Projects</span></a>
+  <a href="references.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span>Reading</span></a>
+  <button class="rail-btn" type="button" id="theme"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg><span id="theme-label">Theme</span></button>
+</nav>
+
+<div class="shell">
+  <details class="side" open>
+    <summary>Projects</summary>
+    <div class="side-head"><strong>Agentic AI notes</strong><span>Eight practice projects</span></div>
+    <ol class="toc" id="toc"></ol>
+  </details>
+
+  <main>
+    <header class="page-head">
+      <h1>Practice projects</h1>
+      <p class="lead">Eight hands-on projects, one per topic, that build toward a full AI rollout plan. Each one says what to do and what to cover.</p>
+    </header>
+
+    <section class="ledger-wrap sheet" aria-labelledby="ledger-h">
+      <div class="ledger-cap"><h2 id="ledger-h">All projects</h2><span>Pick one and open it below</span></div>
+      <table class="ledger">
+        <thead><tr><th scope="col">No.</th><th scope="col">Project</th><th scope="col">Deliverable</th><th scope="col">Time</th></tr></thead>
+        <tbody id="ledger"></tbody>
+      </table>
+    </section>
+
+    <div id="list"></div>
+    <footer class="foot">The projects build on each other: the last one reuses your cost, security, KPI and governance work.</footer>
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script>
+const A = [
+ {topic:1,t:"What does an AI assistant really cost?",
+  what:"Take one typical customer question, count the tokens in the question and in the model's answer, then feed those numbers and an expected volume of calls into a price comparison tool to see how much the same task costs across different models.",
+  out:"Short reflection", len:"150 to 300 words", time:"about 45 min",
+  cover:["The business use I had in mind","Which inputs I varied: question length, answer length, number of calls","The cost range I saw across models","What that means when choosing a model"]},
+ {topic:2,t:"Build a web page by prompting",
+  what:"Ask an image model for a homepage mockup, then ask a chat model to turn it into HTML, save it as a file and open it in the browser. Reflect on the experience and on where prompt-driven building could help at work.",
+  out:"Reflection and 2 images", len:"250 to 500 words", time:"about 60 min",
+  cover:["Screenshot of the mockup","Screenshot of the working page","What worked first time and what I had to fix","How my company could use this way of building"]},
+ {topic:3,t:"Design an agent for my organization",
+  what:"Plan an agent end to end by answering a set of design questions about its purpose, home, connections, safety, tone and success. Optional stretch: build a simple chat bot on Discord and explain it.",
+  out:"Design write-up", len:"short document", time:"about 60 min, plus 1 h optional",
+  cover:["Internal or customer-facing, and which platform it lives on","The workflow it supports and the benefit (time, cost, experience)","Systems it connects to, blockers, and MCP or custom API","Risks, where a human approves, guardrails and fallbacks","Its voice and tone","How I'd measure impact and keep improving it"]},
+ {topic:4,t:"AI security plan for leadership",
+  what:"Check an AI system against the five functions of the NIST Cybersecurity Framework, find the gaps, and write a short memo to leadership with a plan and recommendations.",
+  out:"Memo (Word or PDF)", len:"250 to 500 words", time:"about 60 min",
+  cover:["At least two risks, each mapped to Identify, Protect, Detect, Respond or Recover","Gaps in access control, monitoring, response and recovery","Who is involved, what training they need, and incident steps","Concrete actions to improve readiness"]},
+ {topic:5,t:"AI in the design workflow",
+  what:"Pick one idea for your organization and turn it into a plan for using AI inside a product design process.",
+  out:"Plan (Word or PDF)", len:"short document", time:"about 30 min",
+  cover:["Industry, organization type and department","How design work happens today","The specific AI tool and how it improves speed, results or quality"]},
+ {topic:6,t:"KPIs for an AI rollout",
+  what:"Describe an AI system in a real business setting and define the measures that would show whether it's working.",
+  out:"KPI brief (Word or PDF)", len:"150 to 300 words for the KPIs", time:"about 40 min",
+  cover:["Sector, company type and department","What the AI system does in the workflow","Three to five KPIs","How each KPI ties back to a business goal"]},
+ {topic:7,t:"AI governance plan",
+  what:"Pick a use case such as a chatbot or recommender and write a governance plan covering the law, testing, oversight and risk.",
+  out:"Governance plan (Word or PDF)", len:"1 to 3 pages", time:"about 60 min",
+  cover:["Laws that apply: GDPR, CCPA, HIPAA where relevant","Testing: sandbox, A/B tests, safety checks","Guardrails and who oversees the system","Documentation kept for compliance","Main compliance and operational risks, with mitigations"]},
+ {topic:8,t:"Full AI integration plan",
+  what:"Bring every earlier project together into one plan for introducing AI into a function or process at my organization.",
+  out:"Final plan (Word or PDF)", len:"2 to 5 pages", time:"about 2 h",
+  builds:"Reuses projects 1 (cost), 4 (security), 6 (KPIs) and 7 (governance).",
+  cover:["Sector, organization and the process being changed","Which AI system and why","Costs: setup, running, staffing and training","Security, privacy and risk plan","Change management: communication and training","Rollout in stages: crawl, walk, run","Governance and compliance","KPIs to judge success"]}
+];
+
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const toc=document.getElementById('toc'), list=document.getElementById('list'), ledger=document.getElementById('ledger');
+
+A.forEach((a,i)=>{
+  const n=i+1,id='a'+n;
+  toc.insertAdjacentHTML('beforeend',`<li><a href="#${id}" id="nav-${id}"><span>${pad(n)}</span>${esc(a.t)}</a></li>`);
+  ledger.insertAdjacentHTML('beforeend',`<tr id="row-${id}"><td class="n">${pad(n)}</td><td class="t"><a href="#${id}">${esc(a.t)}</a></td><td class="m">${esc(a.out)}, ${esc(a.len)}</td><td class="st">${esc(a.time)}</td></tr>`);
+  list.insertAdjacentHTML('beforeend',`
+  <section class="module sheet" id="${id}" aria-labelledby="h-${id}">
+    <div class="mhead"><div><div class="num-label">Project <span class="num">${pad(n)}</span>, goes with <a href="index.html#m${a.topic}">topic ${a.topic}</a></div><h2 id="h-${id}">${esc(a.t)}</h2></div></div>
+    <p class="big">${esc(a.what)}</p>
+    <p class="chips"><span>Deliverable <b>${esc(a.out)}</b></span><span>Length <b>${esc(a.len)}</b></span><span>Time <b>${esc(a.time)}</b></span></p>
+    ${a.builds?`<p class="brief">${esc(a.builds)}</p>`:''}
+    <div class="cols">
+      <div>
+        <h3 class="label">What to cover</h3>
+        <ul class="list">${a.cover.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+      </div>
+    </div>
+  </section>`);
+});
+const side=document.querySelector('.side');
+const narrow=matchMedia('(max-width: 60rem)');
+side.open=!narrow.matches;
+narrow.addEventListener('change',()=>{side.open=!narrow.matches;});
+toc.addEventListener('click',e=>{if(narrow.matches&&e.target.closest('a')) side.open=false;});
+
+const root=document.documentElement;
+document.getElementById('theme').addEventListener('click',()=>{
+  const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=dark?'light':'dark'; store.set('aai-theme',root.dataset.theme);});
+function themeLabel(){const d=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches; document.getElementById('theme-label').textContent=d?'Light':'Dark'; document.getElementById('theme').setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');}
+document.getElementById('theme').addEventListener('click',themeLabel); themeLabel();
+</script>
+</body>
+</html>

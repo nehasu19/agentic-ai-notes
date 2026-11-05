@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI Study Notes</title>
+<meta name="description" content="Personal learning notes on AI agents for organizations: concepts, glossary and practice tracker.">
+<script>try{var t=localStorage.getItem('aai-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#modules">Skip to the topic</a>
+<nav class="rail" aria-label="Sections">
+  <a class="mono" href="index.html" aria-label="Agentic AI notes, home">Ai</a>
+  <a href="index.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13z"/></svg><span>Topics</span></a>
+  <a href="assignments.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 3h6v3H9zM8.5 11l2 2 4-4M8.5 17h7"/></svg><span>Projects</span></a>
+  <a href="references.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span>Reading</span></a>
+  <button class="rail-btn" type="button" id="theme"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg><span id="theme-label">Theme</span></button>
+</nav>
+
+<div class="shell">
+  <details class="side" open>
+    <summary><span id="side-sum">Topics</span></summary>
+    <div class="side-head"><strong>Agentic AI notes</strong><span>Eight topics</span></div>
+    <ol class="toc" id="toc"></ol>
+  </details>
+
+  <main>
+    <header class="page-head">
+      <h1>Agentic AI, in my own words</h1>
+      <p class="lead">How AI agents work and how organizations can use them well. Each topic holds learning goals, key ideas, a deeper dive with a diagram, a short test, a glossary and further reading.</p>
+      <p class="facts"><span><strong>8</strong> topics</span><span><strong id="term-count">107</strong> glossary terms</span><span><strong id="src-count">300</strong> sources</span><span><strong>8</strong> diagrams</span><span><strong id="q-count">40</strong> test questions</span></p>
+    </header>
+    <nav class="jump" id="jump" aria-label="On this page"></nav>
+    <div id="modules"></div>
+    <footer class="foot">Everything here is written in my own words. Test answers are checked in your browser and are not saved.</footer>
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="references.js"></script>
+<script src="diagrams.js"></script>
+<script src="quiz.js"></script>
+<script src="lessons.js"></script>
+<script>
+const TOKEN_LINKS=[
+ ["OpenAI Tokenizer","https://platform.openai.com/tokenizer","Paste text and see tokens coloured, with the count for OpenAI models"],
+ ["Tiktokenizer","https://tiktokenizer.vercel.app/","Open-source tokenizer viewer; pick a model and inspect each token and its ID"],
+ ["Hugging Face Tokenizer Playground","https://huggingface.co/spaces/Xenova/the-tokenizer-playground","Compare how open models such as Llama or Mistral split the same text"],
+ ["OpenAI: What are tokens and how to count them","https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them","Plain-language guide with rules of thumb"],
+ ["Claude: Token counting","https://platform.claude.com/docs/en/build-with-claude/token-counting","Count tokens for Claude models through the API before sending a request"],
+ ["Gemini: Understand and count tokens","https://ai.google.dev/gemini-api/docs/tokens","Google's guide to counting tokens for Gemini models"],
+ ["GPT for Work API pricing calculator","https://gptforwork.com/tools/openai-chatgpt-api-pricing-calculator","Enter tokens and call volume to compare cost across models"]
+];
+</script>
+<script>
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const toc=document.getElementById('toc'), host=document.getElementById('modules');
+document.getElementById('src-count').textContent=REFERENCES.length;
+document.getElementById('q-count').textContent=Object.values(QUIZ).reduce((s,q)=>s+q.length,0);
+document.getElementById('term-count').textContent=MODULES.reduce((s,m)=>s+m.terms.length,0);
+
+MODULES.forEach((m,i)=>{
+  const n=i+1,id='m'+n,prev=MODULES[i-1],next=MODULES[i+1];
+  toc.insertAdjacentHTML('beforeend',`<li><a href="#${id}" id="nav-${n}"><span>${String(n).padStart(2,'0')}</span>${esc(m.t)}</a></li>`);
+  host.insertAdjacentHTML('beforeend',`
+  <section class="module sheet" id="${id}" aria-labelledby="h-${id}">
+    <div class="mhead"><div><div class="num-label">Topic <span class="num">${String(n).padStart(2,'0')}</span> of 08</div><h2 id="h-${id}">${esc(m.t)}</h2></div><span class="status">${QUIZ[n].length} test questions</span></div>
+    <p class="big">${esc(m.big)}</p>
+    <div class="stack">
+      ${LESSONS[n]?(L=>`<section class="block" id="overview-${n}"><h3 class="label">What this topic covers</h3>
+        <div class="prose"><p>${esc(L.overview.summary)}</p></div>
+        <ul class="ov-parts">${L.overview.parts.map(([a,b])=>`<li><strong>${esc(a)}</strong><span>${esc(b)}</span></li>`).join('')}</ul>
+        <p class="ov-time">Time needed: <strong>${esc(L.overview.time)}</strong>. Work through the lessons in order, then take the test.</p></section>
+      <section class="block" id="lessons-${n}"><h3 class="label">Lessons, one idea at a time</h3>
+        <ol class="lessons">${L.lessons.map((l,li)=>`<li class="lesson" id="lesson-${n}-${li+1}">
+          <h4><span class="ln">Lesson ${li+1}</span>${esc(l.t)}</h4>
+          <div class="prose">${l.body.map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+          ${l.compare?`<table class="gloss cmp"><thead><tr><th scope="col"></th><th scope="col">Generative AI</th><th scope="col">Agentic AI</th></tr></thead><tbody>${l.compare.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table>`:''}
+          ${l.steps?`<ol class="steps-flow">${l.steps.map(([a,b])=>`<li><span>${esc(a)}</span><em class="tag ${b==='Agentic'?'tag-a':''}">${esc(b)}</em></li>`).join('')}</ol>`:''}
+          ${l.checklist?`<ul class="list ticklist">${l.checklist.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>`:''}
+          ${l.ex?`<aside class="example"><p class="ex-h">${esc(l.ex.h)}</p><p>${esc(l.ex.p)}</p><p class="ex-src">Source: ${l.ex.src.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(t)}</a>`).join(', ')}</p></aside>`:''}
+          <p class="takeaway"><strong>Remember:</strong> ${esc(l.tip)}</p>
+        </li>`).join('')}</ol></section>`)(LESSONS[n]):''}
+      <section class="block" id="goals-${n}"><h3 class="label">What I should be able to do</h3>
+        <ul class="list">${m.goals.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
+      <section class="block" id="ideas-${n}"><h3 class="label">Key ideas</h3>
+        <ul class="list">${m.ideas.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
+      <section class="block" id="deep-${n}"><h3 class="label">Deeper dive</h3>
+        <div class="prose">${m.deep.map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+        <figure class="fig">${D[m.fig]()}</figure></section>
+      ${m.tool==='tokens'?`<section class="block" id="tokens-${n}"><h3 class="label">Count tokens yourself</h3>
+        <div class="prose"><p>Models read and bill text in tokens, small chunks of a few characters. Type or paste a prompt below to see how it splits, how many tokens it uses, and what it would cost at a price you enter.</p></div>
+        <div class="tk-tool">
+          <div class="field"><label for="tk-text">Your text</label><textarea id="tk-text" data-tk="text" placeholder="Paste a prompt or a model's answer here"></textarea></div>
+          <div class="tk-row">
+            <div class="field"><label for="tk-enc">Tokenizer</label><select id="tk-enc" data-tk="enc"><option value="o200k_base">o200k (GPT-4o and newer)</option><option value="cl100k_base">cl100k (GPT-4, GPT-3.5)</option></select></div>
+            <div class="tk-btns"><button class="btn" type="button" data-tk="sample">Try a sample</button><button class="btn btn--quiet" type="button" data-tk="clear">Clear</button></div>
+          </div>
+          <dl class="tk-stats"><div><dt>Tokens</dt><dd class="num" data-tk="tokens">0</dd></div><div><dt>Characters</dt><dd class="num" data-tk="chars">0</dd></div><div><dt>Words</dt><dd class="num" data-tk="words">0</dd></div><div><dt>Characters per token</dt><dd class="num" data-tk="ratio">0</dd></div></dl>
+          <p class="tk-note" data-tk="note" aria-live="polite"></p>
+          <div class="tk-view" data-tk="view" aria-label="Your text split into tokens" hidden></div>
+          <h4 class="tk-h">Estimate the cost</h4>
+          <p class="tk-hint">Prices change often, so take them from the provider's pricing page. They are usually quoted per 1 million tokens.</p>
+          <div class="tk-grid">
+            <div class="field"><label for="tk-price">Input price per 1M tokens ($)</label><input id="tk-price" data-tk="price" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 2.50"></div>
+            <div class="field"><label for="tk-outtok">Expected answer length (tokens)</label><input id="tk-outtok" data-tk="outtok" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 400"></div>
+            <div class="field"><label for="tk-outprice">Output price per 1M tokens ($)</label><input id="tk-outprice" data-tk="outprice" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 10"></div>
+            <div class="field"><label for="tk-calls">Number of calls</label><input id="tk-calls" data-tk="calls" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 10000"></div>
+          </div>
+          <p class="tk-cost" data-tk="cost" aria-live="polite"></p>
+        </div>
+        <h4 class="tk-h">Other places to count tokens</h4>
+        <ul class="list tk-links">${TOKEN_LINKS.map(([t,u,d])=>`<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a><span>${esc(d)}</span></li>`).join('')}</ul>
+        <h4 class="tk-h">How to use an online tokenizer</h4>
+        <ol class="tk-steps"><li>Open the tool and choose the model or tokenizer you plan to use.</li><li>Paste your prompt into the text box. The tool colours each token and shows the total.</li><li>Paste a typical answer too, since you pay for output tokens as well as input.</li><li>Multiply input and output tokens by the prices per million tokens, then by your expected number of calls.</li></ol>
+      </section>`:''}
+      <section class="block" id="gloss-${n}"><h3 class="label">Glossary</h3>
+        <details class="more"><summary>Show all ${m.terms.length} terms <span class="count">${m.terms.slice(0,3).map(t=>esc(t[0])).join(', ')} and more</span></summary>
+      <table class="gloss"><thead><tr><th scope="col">Term</th><th scope="col">What it means</th></tr></thead>
+      <tbody>${m.terms.map(([a,b])=>`<tr><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join('')}</tbody></table></details></section>
+      <section class="block quiz" id="quiz-${n}"><h3 class="label">Test yourself</h3>
+        <p class="quiz-intro">${QUIZ[n].length} questions on this topic. Pick an answer for each, then check.</p>
+        <ol class="qlist">${QUIZ[n].map((q,qi)=>`<li class="q" data-a="${q.a}">
+          <fieldset><legend><span class="qn">${qi+1}.</span> ${esc(q.q)}</legend>
+          ${q.o.map((o,oi)=>`<label class="opt"><input type="radio" name="q${n}-${qi}" value="${oi}"><span>${esc(o)}</span></label>`).join('')}
+          </fieldset><p class="why" hidden><strong class="verdict"></strong> ${esc(q.why)}</p></li>`).join('')}</ol>
+        <div class="quiz-bar"><button class="btn" type="button" data-check="${n}">Check my answers</button><button class="btn btn--quiet" type="button" data-reset="${n}" hidden>Try again</button><p class="score" id="score-${n}" aria-live="polite"></p></div>
+      </section>
+    </div>
+    <details class="more" id="read-${n}"><summary>Further reading <span class="count">${m.reading.length} picks</span></summary>
+      <ul class="list">${m.reading.map(([t,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join('')}</ul><p class="all-refs"><a href="references.html#t${n}">All ${typeof REFERENCES!=='undefined'?REFERENCES.filter(r=>r.topic===n).length:''} sources for this topic</a></p></details>
+    <nav class="pager" aria-label="Topic pages">
+      ${prev?`<a class="btn" href="#m${n-1}" aria-label="Previous topic: ${esc(prev.t)}">Previous topic</a>`:'<span></span>'}
+      ${next?`<a class="btn btn--primary" href="#m${n+1}" aria-label="Next topic: ${esc(next.t)}">Next topic</a>`:`<a class="btn btn--primary" href="assignments.html">Assignments</a>`}
+    </nav>
+  </section>`);
+});
+
+// Self-tests: check, score, explain, reset.
+function check(n){
+  const box=document.getElementById('quiz-'+n); let right=0, answered=0;
+  box.querySelectorAll('.q').forEach(li=>{
+    const pick=li.querySelector('input:checked'), a=li.dataset.a, why=li.querySelector('.why'), v=why.querySelector('.verdict');
+    li.querySelectorAll('.opt').forEach(o=>{o.classList.toggle('is-right',o.querySelector('input').value===a);});
+    if(pick){answered++; const ok=pick.value===a; if(ok)right++; li.className='q '+(ok?'ok':'bad'); v.textContent=ok?'Correct.':'Not quite.';}
+    else{li.className='q skip'; v.textContent='Not answered.';}
+    why.hidden=false; li.querySelectorAll('input').forEach(i=>i.disabled=true);
+  });
+  const total=QUIZ[n].length;
+  document.getElementById('score-'+n).innerHTML=`You got <span class="num">${right}</span> of <span class="num">${total}</span>`+(right===total?'. Full marks.':answered<total?`, with ${total-answered} left blank.`:'.');
+  box.querySelector('[data-check]').hidden=true; box.querySelector('[data-reset]').hidden=false;
+}
+function reset(n){
+  const box=document.getElementById('quiz-'+n);
+  box.querySelectorAll('.q').forEach(li=>{li.className='q'; li.querySelector('.why').hidden=true;
+    li.querySelectorAll('input').forEach(i=>{i.disabled=false;i.checked=false;}); li.querySelectorAll('.opt').forEach(o=>o.classList.remove('is-right'));});
+  document.getElementById('score-'+n).textContent='';
+  box.querySelector('[data-check]').hidden=false; box.querySelector('[data-reset]').hidden=true;
+  box.querySelector('input').focus();
+}
+document.getElementById('jump').addEventListener('click',e=>{const j=e.target.closest('a'); if(!j) return; e.preventDefault(); const t=document.querySelector(j.getAttribute('href')); if(t.tagName==='DETAILS') t.open=true; t.scrollIntoView({block:'start'});});
+host.addEventListener('click',e=>{const c=e.target.closest('[data-check]'),r=e.target.closest('[data-reset]'); if(c)check(+c.dataset.check); if(r)reset(+r.dataset.reset);});
+
+// One topic at a time; the URL hash holds which. Without script every topic shows.
+const side=document.querySelector('.side'), narrow=matchMedia('(max-width: 60rem)');
+function show(){
+  const want=(location.hash.match(/^#m([1-8])$/)||[])[1]||store.get('aai-last')||'1';
+  MODULES.forEach((_,i)=>{const n=String(i+1),on=n===want;
+    document.getElementById('m'+n).hidden=!on;
+    const a=document.getElementById('nav-'+n); on?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current');});
+  store.set('aai-last',want);
+  document.getElementById('jump').innerHTML=[...(LESSONS[want]?[['overview','Overview'],['lessons','Lessons']]:[]),['goals','Goals'],['ideas','Key ideas'],['deep','Deeper dive'],...(MODULES[want-1].tool==='tokens'?[['tokens','Token counter']]:[]),['gloss','Glossary'],['quiz','Test'],['read','Reading']].map(([k,l])=>`<a href="#${k}-${want}">${l}</a>`).join('');
+  document.getElementById('side-sum').textContent=`Topic ${want} of 8: ${MODULES[want-1].t}`;
+  if(narrow.matches) side.open=false;
+}
+addEventListener('hashchange',()=>{show();document.getElementById('m'+(location.hash.slice(2)||'1'))?.scrollIntoView({block:'start'});});
+side.open=!narrow.matches;
+narrow.addEventListener('change',()=>{side.open=!narrow.matches;});
+show();
+
+const root=document.documentElement;
+document.getElementById('theme').addEventListener('click',()=>{
+  const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=dark?'light':'dark'; store.set('aai-theme',root.dataset.theme);});
+function themeLabel(){const d=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches; document.getElementById('theme-label').textContent=d?'Light':'Dark'; document.getElementById('theme').setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');}
+document.getElementById('theme').addEventListener('click',themeLabel); themeLabel();
+</script>
+<script type="module">
+import { initTokenCounter } from "./tokens.js";
+const w = document.querySelector(".tk-tool")?.closest("section");
+if (w) initTokenCounter(w);
+</script>
+</body>
+</html>
